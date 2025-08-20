@@ -1,0 +1,97 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class ATM {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double balance = 10000.00;
+        final double MAX_DEPOSIT = 20000.00;
+        final double MAX_WITHDRAW = 5000.00;
+        ArrayList<String> history = new ArrayList<>();
+        boolean running = true;
+
+        System.out.println("Welcome to SecureBank ATM");
+        System.out.print("Enter your 4-digit PIN: ");
+        int pin = scanner.nextInt();
+
+        if (pin != 1234) {
+            System.out.println("Incorrect PIN. Access denied.");
+            return;
+        }
+
+        while (running) {
+            System.out.println("\n========= ATM Menu =========");
+            System.out.println("1. Check Balance");
+            System.out.println("2. Deposit Money");
+            System.out.println("3. Withdraw Money");
+            System.out.println("4. View Transaction History");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.printf("Your current balance is: ₹%.2f%n", balance);
+                    break;
+
+                case 2:
+                    System.out.print("Enter amount to deposit: ₹");
+                    double deposit = scanner.nextDouble();
+                    if (deposit > 0 && deposit <= MAX_DEPOSIT) {
+                        balance += deposit;
+                        System.out.printf("₹%.2f deposited successfully.%n", deposit);
+                        history.add("Deposited ₹" + String.format("%.2f", deposit));
+                    } else {
+                        System.out.println("Invalid deposit amount. Maximum allowed: ₹" + MAX_DEPOSIT);
+                    }
+                    break;
+
+                case 3:
+                    System.out.print("Enter amount to withdraw: ₹");
+                    double withdraw = scanner.nextDouble();
+                    if (withdraw > 0 && withdraw <= balance && withdraw <= MAX_WITHDRAW) {
+                        balance -= withdraw;
+                        System.out.printf("Please collect your cash: ₹%.2f%n", withdraw);
+                        history.add("Withdrew ₹" + String.format("%.2f", withdraw));
+                    } else if (withdraw > balance) {
+                        System.out.println("Insufficient balance.");
+                    } else if (withdraw > MAX_WITHDRAW) {
+                        System.out.println("Withdrawal limit exceeded. Maximum allowed: ₹" + MAX_WITHDRAW);
+                    } else {
+                        System.out.println("Invalid withdrawal amount.");
+                    }
+                    break;
+
+                case 4:
+                    System.out.println("Transaction History:");
+                    if (history.isEmpty()) {
+                        System.out.println("No transactions yet.");
+                    } else {
+                        for (String record : history) {
+                            System.out.println("- " + record);
+                        }
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Thank you for using SecureBank ATM. Goodbye!");
+                    running = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+
+            if (running) {
+                System.out.print("\nDo you want to perform another transaction? (yes/no): ");
+                String again = scanner.next();
+                if (!again.equalsIgnoreCase("yes")) {
+                    System.out.println("Session ended. Have a great day.");
+                    running = false;
+                }
+            }
+        }
+
+        scanner.close();
+    }
+}

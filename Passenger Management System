@@ -1,0 +1,70 @@
+package pack1;
+import java.util.Scanner;
+
+public class PMS {
+
+	public static void main(String[] args) {
+		System.out.println("1:enter passenger names");
+		System.out.println("2:search passenger names");
+		System.out.println("3:sort passenger names");
+		System.out.println("4:display passenger names");
+		int choice;			
+		String passnames[]=new String[5];
+		Scanner sc=new Scanner(System.in);
+		char ans='y';
+		while(ans=='y'||ans=='Y')
+		{
+		System.out.println("enter users choice:");
+		choice=sc.nextInt();
+		sc.nextLine();
+		if (choice==1)
+		{
+		System.out.println("enter passenger names:");
+		for(int i=0;i<5;i++)
+		{
+			passnames[i]=sc.nextLine();
+		}
+		}
+		else if(choice==4)
+		{
+		for(String n:passnames)
+			System.out.println(n);
+		}
+		else if(choice==3)
+		{
+			System.out.println("passenger names are sorted!!! ");
+			for(int i=0;i<5;i++)
+			{
+				for(int j=i+1;j<5;j++)
+				{
+					if(passnames[i].compareTo(passnames[j])>0)
+					{
+						String temp=passnames[i];
+						passnames[i]=passnames[j];
+						passnames[j]=temp;
+					}
+				}
+			}
+		}
+		else if(choice==2)
+		{
+			System.out.println("enter name to search");
+			String name=sc.nextLine();
+			for(int i=0;i<5;i++)
+			{
+				if(passnames[i].compareTo(name)==0)
+				{
+					System.out.println("name is found in the list");
+				}
+			}
+		}
+		else
+		{
+			System.out.println("invalid choice");
+		}
+		System.out.println("do you want to continue?");
+		ans=sc.next().charAt(0);
+		}
+	}
+
+}
